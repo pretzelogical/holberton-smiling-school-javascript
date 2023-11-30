@@ -227,11 +227,11 @@
   width: 30px;
 }
 
-.quotes .carousel-control-prev.arrow-left {
+.quotes .container .carousel .carousel-control-prev {
   padding-right: var(--quotes-arrows-pad);
 }
 
-.quotes .carousel-control-next.arrow-right {
+.quotes .container .carousel .carousel-control-next {
   padding-left: var(--quotes-arrows-pad);
 }
 

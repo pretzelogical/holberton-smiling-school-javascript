@@ -1,0 +1,6 @@
+# Quotes
+GET https://smileschool-api.hbtn.info/quotes
+
+
+# Popular tutorials
+GET https://smileschool-api.hbtn.info/popular-tutorials
