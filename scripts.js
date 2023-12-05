@@ -60,6 +60,26 @@ $(function () {
     for (const elem of elems) {
       console.log(elem.attr('id').split(' '));
     }
+    $('.slickCarousel1').slick({
+      infinite: true,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      arrows: true,
+      responsive: [
+        {
+          breakpoint: 992,
+          settings: {
+            slidesToShow: 2,
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 1,
+          }
+        }
+      ]
+    })
   }
   main();
 });
