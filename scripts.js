@@ -64,7 +64,7 @@ $(function () {
       });
   }
 
-  function createVideoCarouselCard(video) {
+  function createVideoCard(video) {
     const stars = [];
 
     for (let i = 1; i <= 5; i++) {
@@ -82,11 +82,7 @@ $(function () {
         );
       }
     }
-    return $("<div>").append(
-      $(
-        '<div class="d-flex align align-items-center justify-content-center">'
-      ).append(
-        $('<div class="card">').append(
+    return $('<div class="card">').append(
           $(
             `<img src="${video.thumb_url}" class="card-img-top" alt="Video thumbnail">`
           ),
@@ -109,16 +105,19 @@ $(function () {
               $('<div class="main-color">').text(video.duration)
             )
           )
-        )
-      )
-    );
+        );
   }
 
   function createVideoCarousel(videos) {
     const carouselClass = `slickCarousel${carouselsCreated++}`;
     const carousel = $(`<div class="${carouselClass}">`);
     for (const video of videos) {
-      carousel.append(createVideoCarouselCard(video));
+      carousel.append(
+      $("<div>").append(
+        $(
+          '<div class="d-flex align align-items-center justify-content-center">'
+        ).append(createVideoCard(video))
+      ))
     }
     $(carousel).slick({
       infinite: true,
