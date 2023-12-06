@@ -167,6 +167,7 @@ $(function () {
     const targeted = {
       quotes: getQuotesFromAPI,
       "popular-tutorials": getVideoCarousel,
+      "latest-videos": getVideoCarousel,
     };
     const elems = [];
     for (const target of Object.keys(targeted)) {
