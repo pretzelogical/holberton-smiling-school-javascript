@@ -19,9 +19,28 @@
 
 /* General Styles  */
 
-.slick-next::before,
+.slick-next,
+.slick-prev {
+  width: fit-content;
+  height: fit-content;
+  top: 39%;
+}
+
+.slick-prev {
+  left: -100px;
+}
+
 .slick-prev::before {
-  color: blue;
+  content: url('images/arrow_black_left.png');
+  right: 10%;
+}
+
+.slick-next {
+  right: -100px;
+}
+
+.slick-next::before {
+  content: url('images/arrow_black_right.png');
 }
 
 .body {
@@ -38,6 +57,10 @@
 
 .section-header span {
   font-weight: bold;
+}
+
+.text-main {
+  color: var(--main-color);
 }
 
 .btn:hover,
