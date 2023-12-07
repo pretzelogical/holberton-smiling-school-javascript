@@ -83,29 +83,29 @@ $(function () {
       }
     }
     return $('<div class="card">').append(
+      $(
+        `<img src="${video.thumb_url}" class="card-img-top" alt="Video thumbnail">`
+      ),
+      $('<div class="card-img-overlay text-center">').append(
+        $(
+          '<img src="images/play.png" alt="Play" width="64px" class="align-self-center play-overlay">'
+        )
+      ),
+      $('<div class="card-body">').append(
+        $('<h5 class="card-title font-weight-bold">').text(video.title),
+        $('<p class="card-text text-muted">').text(video["sub-title"]),
+        $('<div class="creator d-flex align-items-center">').append(
           $(
-            `<img src="${video.thumb_url}" class="card-img-top" alt="Video thumbnail">`
+            `<img src="${video.author_pic_url}" alt="Creator of video" width="30px" class="rounded-circle" alt="Creator Pic">`
           ),
-          $('<div class="card-img-overlay text-center">').append(
-            $(
-              '<img src="images/play.png" alt="Play" width="64px" class="align-self-center play-overlay">'
-            )
-          ),
-          $('<div class="card-body">').append(
-            $('<h5 class="card-title font-weight-bold">').text(video.title),
-            $('<p class="card-text text-muted">').text(video["sub-title"]),
-            $('<div class="creator d-flex align-items-center">').append(
-              $(
-                `<img src="${video.author_pic_url}" alt="Creator of video" width="30px" class="rounded-circle" alt="Creator Pic">`
-              ),
-              $('<h6 class="pl-3 m-0 main-color">').text(video.author)
-            ),
-            $('<div class="info pt-3 d-flex justify-content-between">').append(
-              $('<div class="rating d-flex">').append(stars),
-              $('<div class="main-color">').text(video.duration)
-            )
-          )
-        );
+          $('<h6 class="pl-3 m-0 main-color">').text(video.author)
+        ),
+        $('<div class="info pt-3 d-flex justify-content-between">').append(
+          $('<div class="rating d-flex">').append(stars),
+          $('<div class="main-color">').text(video.duration)
+        )
+      )
+    );
   }
 
   function createVideoCarousel(videos) {
@@ -113,11 +113,12 @@ $(function () {
     const carousel = $(`<div class="${carouselClass}">`);
     for (const video of videos) {
       carousel.append(
-      $("<div>").append(
-        $(
-          '<div class="d-flex align align-items-center justify-content-center">'
-        ).append(createVideoCard(video))
-      ))
+        $("<div>").append(
+          $(
+            '<div class="d-flex align align-items-center justify-content-center">'
+          ).append(createVideoCard(video))
+        )
+      );
     }
     $(carousel).slick({
       infinite: true,
@@ -162,11 +163,41 @@ $(function () {
       });
   }
 
+  function populateDropdown(dropdown, data) {
+    for (const item of data) {
+      dropdown.append($(`<a class="dropdown-item" href="#" data-search-option="${item}">`).text(item.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')));
+    }
+  }
+
+  function initSearch(elem) {
+    const container = elem.children().first();
+    const keywordSearch = $("input#textSearch__keyword");
+    const topicSearch = $("#bsDropdown__topic");
+    const sortSearch = $("#bsDropdown__sortBy");
+    const topicDropdown = $('#bsDropdown__topic .dropdown-menu');
+    const sortDropdown = $('#bsDropdown__sortBy .dropdown-menu');
+
+    $.getJSON('https://smileschool-api.hbtn.info/courses')
+    .done(function (videos) {
+      console.log(videos);
+      populateDropdown(topicDropdown, videos.topics);
+      populateDropdown(sortDropdown, videos.sorts);
+      
+    })
+    .fail(function (error) {
+
+    })
+
+    console.log(container, keywordSearch, topicSearch, sortSearch);
+
+  }
+
   function main() {
     const targeted = {
       quotes: getQuotesFromAPI,
       "popular-tutorials": getVideoCarousel,
       "latest-videos": getVideoCarousel,
+      search__course: initSearch,
     };
     const elems = [];
     for (const target of Object.keys(targeted)) {
@@ -179,7 +210,7 @@ $(function () {
     for (const elem of elems) {
       console.log(elem.attr("id").split(" "));
     }
-    if ($('.2_homepage_slick').length) {
+    if ($(".2_homepage_slick").length) {
       $(".2_homepage_slick").slick({
         infinite: true,
         slidesToShow: 4,
