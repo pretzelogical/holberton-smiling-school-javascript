@@ -367,9 +367,33 @@
 
 .section .card-img-overlay {
   /* top: 25px; */
-  top: 4%;
-  left: 26%;
+  top: 51%;
+  left: 54%;
+  transform: translate(calc(-50% - 0.2vw), calc(-93% + 1vw));
+  
 }
+
+@media screen and (min-width: 576px) {
+  .section .card-img-overlay {
+    top: 51%;
+    left: 53%;
+    transform: translate(calc(-50% - 0.2vw), calc(-93% + 1vw));
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .section .card-img-overlay {
+    top: 49%;
+    left: 54%;
+    transform: translate(calc(-50% - 0.2vw), calc(-93% + 1vw));
+  }
+}
+
+/* .card-img-overlay img {
+  width: 10vw;
+  min-width: 32px;
+  object-fit: cover;
+} */
 
 .section .card-title {
   font-size: 16px;
