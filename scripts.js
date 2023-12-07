@@ -169,6 +169,42 @@ $(function () {
     }
   }
 
+  function resultLoad(videos) {
+    function displayLoader(elem) {}
+    const res = $('#searchResults');
+    const row = $('<div class="row">');
+    console.log(videos);
+    for (const video of videos) {
+      row.append(
+        $('<div class="col-12 col-sm-4 col-lg-3 d-flex justify-content-center">')
+        .append(createVideoCard(video))
+      )
+    }
+
+    res.children().first().empty();
+    res.children().first().append(row);
+    console.log(res.children().first())
+
+    // if (res.data('isLoading') !== true) {
+
+    // }
+  }
+
+  function search(e) {
+    e.preventDefault();
+    const keyword = $("input#textSearch__keyword").val();
+    const topic = (($("#bsDropdown__topic").children('a').children().first()).text()).split(' ').map(word => word.toLowerCase()).join('_');
+    const sort = (($("#bsDropdown__sortBy").children('a').children().first()).text()).split(' ').map(word => word.toLowerCase()).join('_');
+    console.log(keyword, topic, sort);
+    $.getJSON('https://smileschool-api.hbtn.info/courses', {q: keyword, topic: topic, sort: sort})
+    .done(function (videos) {
+      resultLoad(videos.courses);
+    })
+    .fail(function (error) {
+      console.error(error);
+    })
+  }
+
   function initSearch(elem) {
     const container = elem.children().first();
     const keywordSearch = $("input#textSearch__keyword");
@@ -182,10 +218,24 @@ $(function () {
       console.log(videos);
       populateDropdown(topicDropdown, videos.topics);
       populateDropdown(sortDropdown, videos.sorts);
-      
+      keywordSearch.on('input', search);
+      for (const elem of [topicDropdown, sortDropdown]) {
+        for (let child of elem.children()) {
+          child = $(child);
+          console.log(child);
+          child.on('click', function (e) {
+            e.preventDefault();
+            const display = $(this).parent().parent();
+            display.children('a').children().first().text($(this).text());
+            console.log(display.children('a').children().first());
+            resultLoad(videos.courses);
+          })
+        }
+      }
+      resultLoad(videos.courses);
     })
     .fail(function (error) {
-
+      console.error(error);
     })
 
     console.log(container, keywordSearch, topicSearch, sortSearch);
